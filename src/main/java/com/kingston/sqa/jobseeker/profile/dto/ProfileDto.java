@@ -1,8 +1,10 @@
 package com.kingston.sqa.jobseeker.profile.dto;
 
 import com.kingston.sqa.jobseeker.auth.domain.User;
+import com.kingston.sqa.jobseeker.profile.domain.EducationQualification;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
+import com.kingston.sqa.jobseeker.profile.domain.QualificationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -39,8 +41,16 @@ public class ProfileDto {
 
     public Profile toDomain() {
 
-        academicQualifications.stream().map( QualificationDto::toDomain).collect(Collectors.toList());
-        
+      List<Qualification>  academicList = null;
+      if (academicQualifications != null){
+          academicList = academicQualifications.stream().map( q -> q.toDomain(id, QualificationType.ACADEMIC) ).toList();
+      }
+
+        List<Qualification>  profetionalList = null;
+      if (professionalQualifications != null){
+          profetionalList = professionalQualifications.stream().map( q -> q.toDomain(id, QualificationType.PROFESSIONAL) ).toList();
+      }
+
         return  Profile.builder()
                 .id(this.id)
                 .user(user)
@@ -48,6 +58,8 @@ public class ProfileDto {
                 .about(this.about)
                 .industry(this.industry)
                 .skills(this.skills)
+                .academicQualifications(academicList)
+                .professionalQualifications(profetionalList)
                 .build();
     }
 }

@@ -1,5 +1,7 @@
 package com.kingston.sqa.jobseeker.profile.controllers;
 
+import com.kingston.sqa.jobseeker.api.response.BaseResponse;
+import com.kingston.sqa.jobseeker.auth.dto.JWTDto;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.dto.ProfileDto;
 import com.kingston.sqa.jobseeker.profile.services.IProfileService;
@@ -15,14 +17,29 @@ public class ProfileController {
     private IProfileService profileService;
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> profile(@RequestBody ProfileDto profileDto, @PathVariable String userId) throws Exception {
+    public ResponseEntity<?> updateProfile(@RequestBody ProfileDto profileDto, @PathVariable Long userId) throws Exception {
 
+        profileDto.setId(userId);
         Profile profile = profileDto.toDomain();
-        profile.setId(Long.parseLong(userId));
+        profile.setId(userId);
 
        Profile updatedProfile =  this.profileService.updateProfile( profile);
 
-        return ResponseEntity.ok(updatedProfile);
+        BaseResponse<Profile> res = new BaseResponse<>();
+        res.setData(updatedProfile);
+
+        return ResponseEntity.ok(res);
+    }
+  @GetMapping("/{userId}")
+    public ResponseEntity<?> getProfile( @PathVariable Long userId) throws Exception {
+
+
+       Profile updatedProfile =  this.profileService.readProfile(userId);
+
+        BaseResponse<Profile> res = new BaseResponse<>();
+        res.setData(updatedProfile);
+
+        return ResponseEntity.ok(res);
     }
 
 }
