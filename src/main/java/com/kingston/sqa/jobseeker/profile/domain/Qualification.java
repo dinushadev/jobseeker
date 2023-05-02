@@ -10,7 +10,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class Qualification {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -19,13 +21,19 @@ public class Qualification {
 
     private  String institute;
 
+    @Enumerated(EnumType.STRING)
     private QualificationType type; //Academic or Professional
 
     private String certificate;
     private String certificateType;
 
+
     private LocalDate start;
     private LocalDate end;
 
     private List<String> skills;
+
+    @ManyToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile profile;
 }

@@ -1,9 +1,11 @@
 package com.kingston.sqa.jobseeker.auth.controllers;
 
+import com.kingston.sqa.jobseeker.api.response.BaseResponse;
 import com.kingston.sqa.jobseeker.auth.domain.User;
 import com.kingston.sqa.jobseeker.auth.dto.JWTDto;
 import com.kingston.sqa.jobseeker.auth.dto.UserDto;
 import com.kingston.sqa.jobseeker.auth.dto.UserLoginDto;
+import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import com.kingston.sqa.jobseeker.auth.services.UserService;
 import com.kingston.sqa.jobseeker.auth.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,9 +35,13 @@ public class UserController {
    @PostMapping("/login")
    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto) throws Exception {
       authenticate(userLoginDto.getUsername(), userLoginDto.getPassword());
-      final UserDetails userDetails = userService.loadUserByUsername(userLoginDto.getUsername());
+      final User userDetails = userService.loadUserFromUsername(userLoginDto.getUsername());
+
       final String token = jwtTokenUtil.generateToken(userDetails);
-      return ResponseEntity.ok(new JWTDto(token));
+      BaseResponse<JWTDto> res = new BaseResponse<>();
+      res.setData(new JWTDto(token, userDetails.getUsername(), userDetails.getId(), userDetails.getRole()));
+      res.setData(new JWTDto(token, userDetails.getUsername(), userDetails.getId(), userDetails.getRole()));
+      return ResponseEntity.ok(res);
    }
 
    @PostMapping("/register")
@@ -47,8 +52,19 @@ public class UserController {
       user.setEmail(userDto.getEmail());
       user.setFirstName(userDto.getFirstName());
       user.setLastName(userDto.getLastName());
-      userService.saveUser(user);
-      return ResponseEntity.ok("success");
+      BaseResponse<Object> res = new BaseResponse<>();
+
+      User savedUser;
+      try{
+
+         savedUser = userService.saveJobSeeker(user);
+         res.setSuccess(true);
+      }catch (Exception e){
+         res.setSuccess(false);
+         res.setErrorCode("DUPLICATE_USER");
+      }
+
+      return ResponseEntity.ok(res);
    }
 
    private void authenticate(String username, String password) throws Exception {

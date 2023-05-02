@@ -1,6 +1,7 @@
 package com.kingston.sqa.jobseeker.auth.services;
 
 import com.kingston.sqa.jobseeker.auth.domain.User;
+import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import com.kingston.sqa.jobseeker.auth.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +30,17 @@ public class UserService implements UserDetailsService {
       return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
    }
 
-   public User saveUser(User user) {
+
+   public User loadUserFromUsername(String username) {
+      User user = userRepository.findByUsername(username);
+      if (user == null) {
+         throw new UsernameNotFoundException("User not found");
+      }
+      return user;
+   }
+   public User saveJobSeeker(User user) {
       user.setPassword(passwordEncoder.encode(user.getPassword()));
+      user.setRole(UserType.JOB_SEEKER);
       return userRepository.save(user);
    }
 }

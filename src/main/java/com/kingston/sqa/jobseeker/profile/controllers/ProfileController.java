@@ -1,6 +1,7 @@
 package com.kingston.sqa.jobseeker.profile.controllers;
 
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
+import com.kingston.sqa.jobseeker.profile.dto.ProfileDto;
 import com.kingston.sqa.jobseeker.profile.services.IProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,11 @@ public class ProfileController {
     private IProfileService profileService;
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> profile(@RequestBody Profile profile, @PathVariable String userId) throws Exception {
+    public ResponseEntity<?> profile(@RequestBody ProfileDto profileDto, @PathVariable String userId) throws Exception {
 
+        Profile profile = profileDto.toDomain();
         profile.setId(Long.parseLong(userId));
+
        Profile updatedProfile =  this.profileService.updateProfile( profile);
 
         return ResponseEntity.ok(updatedProfile);

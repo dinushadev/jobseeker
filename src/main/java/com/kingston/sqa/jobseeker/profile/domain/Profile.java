@@ -1,18 +1,20 @@
 package com.kingston.sqa.jobseeker.profile.domain;
 
 import com.kingston.sqa.jobseeker.auth.domain.User;
+import com.kingston.sqa.jobseeker.profile.dto.QualificationDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class Profile {
     @Id
     private Long id;
@@ -38,10 +40,10 @@ public class Profile {
 //    @ToString.Exclude
 //    private List<ProfessionalQualification> professionalQualifications;
 
-   // @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile")
     private List<Qualification> academicQualifications;
 
-   // @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile")
     private List<Qualification> professionalQualifications;
 
     @OneToMany
@@ -60,4 +62,6 @@ public class Profile {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+
 }

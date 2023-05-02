@@ -1,5 +1,6 @@
 package com.kingston.sqa.jobseeker.auth.domain;
 
+import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -28,6 +29,7 @@ public class User {
     private String gender;
     private String address;
     private String email;
+    private UserType role;
 
     @Override
     public boolean equals(Object o) {
