@@ -28,12 +28,12 @@ public class SpringFoxConfig  {
     @Bean
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
-        devServer.setUrl("devUrl");
+        devServer.setUrl("/");
         devServer.setDescription("Server URL in Development environment");
 
-        Server prodServer = new Server();
-        prodServer.setUrl("prodUrl");
-        prodServer.setDescription("Server URL in Production environment");
+//        Server prodServer = new Server();
+//        prodServer.setUrl("prodUrl");
+//        prodServer.setDescription("Server URL in Production environment");
 
         Contact contact = new Contact();
         contact.setEmail("dinusha@gmail.com");
@@ -48,7 +48,7 @@ public class SpringFoxConfig  {
                 .description("This API exposes Jobseeker and CV managments APIs").termsOfService("https://www.bezkoder.com/terms")
                 .license(mitLicense);
 
-        return new OpenAPI().info(info).servers(List.of(devServer, prodServer));
+        return new OpenAPI().info(info).servers(List.of(devServer));
     }
 
 //    @Bean

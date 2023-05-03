@@ -25,11 +25,11 @@ public class ProfileService implements IProfileService{
                qualification.setType(QualificationType.ACADEMIC);
             }
         }
-        if (profile.getProfessionalQualifications()!= null && profile.getProfessionalQualifications().size()>0 ){
-            for (Qualification qualification : profile.getProfessionalQualifications()) {
-                qualification.setType(QualificationType.PROFESSIONAL);
-            }
-        }
+//        if (profile.getProfessionalQualifications()!= null && profile.getProfessionalQualifications().size()>0 ){
+//            for (Qualification qualification : profile.getProfessionalQualifications()) {
+//                qualification.setType(QualificationType.PROFESSIONAL.toString());
+//            }
+//        }
 
         return profileRepository.save(profile);
     }

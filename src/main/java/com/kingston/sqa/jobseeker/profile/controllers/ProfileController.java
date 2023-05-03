@@ -25,8 +25,8 @@ public class ProfileController {
 
        Profile updatedProfile =  this.profileService.updateProfile( profile);
 
-        BaseResponse<Profile> res = new BaseResponse<>();
-        res.setData(updatedProfile);
+        BaseResponse<ProfileDto> res = new BaseResponse<>();
+        res.setData(new ProfileDto(updatedProfile));
 
         return ResponseEntity.ok(res);
     }
@@ -36,8 +36,10 @@ public class ProfileController {
 
        Profile updatedProfile =  this.profileService.readProfile(userId);
 
-        BaseResponse<Profile> res = new BaseResponse<>();
-        res.setData(updatedProfile);
+       ProfileDto profileDto =new ProfileDto(updatedProfile);
+
+        BaseResponse<ProfileDto> res = new BaseResponse<>();
+        res.setData(profileDto);
 
         return ResponseEntity.ok(res);
     }

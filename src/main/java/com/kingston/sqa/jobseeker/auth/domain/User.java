@@ -1,5 +1,7 @@
 package com.kingston.sqa.jobseeker.auth.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,7 +25,9 @@ public class User {
     private String lastName;
     @Column(unique = true)
     private  String username;
+    @JsonIgnore
     private  String password;
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDate birthDay;
     private String mobileNumber;
     private String gender;

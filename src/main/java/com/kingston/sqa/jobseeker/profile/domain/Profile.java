@@ -5,6 +5,7 @@ import com.kingston.sqa.jobseeker.profile.dto.QualificationDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 import java.util.Objects;
@@ -40,15 +41,20 @@ public class Profile {
 //    @ToString.Exclude
 //    private List<ProfessionalQualification> professionalQualifications;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @Where(clause = "type = 'ACADEMIC'")
     private List<Qualification> academicQualifications;
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @Where(clause = "type = 'PROFESSIONAL'")
     private List<Qualification> professionalQualifications;
 
-    @OneToMany
-    @ToString.Exclude
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private List<Experience> experiences;
+
+    public Profile(Long profileId) {
+        this.id = profileId;
+    }
 
     @Override
     public boolean equals(Object o) {
