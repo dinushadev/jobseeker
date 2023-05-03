@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,7 +32,13 @@ public class Profile {
 
     private String eductionLevel;
 
-    private List<String> skills;
+    @ManyToMany
+    @JoinTable(
+            name = "profile_skills",
+            joinColumns = @JoinColumn(name = "profile_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private Set<Skill> skills;
 
 //    @OneToMany(mappedBy = "profile")
 //    @ToString.Exclude
@@ -43,14 +50,14 @@ public class Profile {
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @Where(clause = "type = 'ACADEMIC'")
-    private List<Qualification> academicQualifications;
+    private Set<Qualification> academicQualifications;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @Where(clause = "type = 'PROFESSIONAL'")
-    private List<Qualification> professionalQualifications;
+    private Set<Qualification> professionalQualifications;
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-    private List<Experience> experiences;
+    private Set<Experience> experiences;
 
     public Profile(Long profileId) {
         this.id = profileId;

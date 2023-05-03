@@ -16,6 +16,11 @@ public class ProfileService implements IProfileService{
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private ISkillService skillService;
+
+
     @Override
     public Profile updateProfile(Profile profile) {
 
@@ -25,11 +30,14 @@ public class ProfileService implements IProfileService{
                qualification.setType(QualificationType.ACADEMIC);
             }
         }
-//        if (profile.getProfessionalQualifications()!= null && profile.getProfessionalQualifications().size()>0 ){
-//            for (Qualification qualification : profile.getProfessionalQualifications()) {
-//                qualification.setType(QualificationType.PROFESSIONAL.toString());
-//            }
-//        }
+        if (profile.getProfessionalQualifications()!= null && profile.getProfessionalQualifications().size()>0 ){
+            for (Qualification qualification : profile.getProfessionalQualifications()) {
+                qualification.setType(QualificationType.PROFESSIONAL);
+            }
+        }
+
+        //update the still list in skill table
+        this.skillService.syncSkills(profile.getSkills());
 
         return profileRepository.save(profile);
     }
