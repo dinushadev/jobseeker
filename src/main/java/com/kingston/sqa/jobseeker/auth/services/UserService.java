@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -23,20 +24,21 @@ public class UserService implements UserDetailsService {
 
    @Override
    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      User user = userRepository.findByUsername(username);
-      if (user == null) {
+      Optional<User> userOpt = userRepository.findByUsername(username);
+  //   return userOpt.orElseThrow(new UsernameNotFoundException("User not found"))
+      if (userOpt.isEmpty()) {
          throw new UsernameNotFoundException("User not found");
       }
-      return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+      return new org.springframework.security.core.userdetails.User(userOpt.get().getUsername(), userOpt.get().getPassword(), new ArrayList<>());
    }
 
 
    public User loadUserFromUsername(String username) {
-      User user = userRepository.findByUsername(username);
-      if (user == null) {
+     Optional< User> userOpt = userRepository.findByUsername(username);
+      if (userOpt.isEmpty()) {
          throw new UsernameNotFoundException("User not found");
       }
-      return user;
+      return userOpt.get();
    }
    public User saveJobSeeker(User user) {
       user.setPassword(passwordEncoder.encode(user.getPassword()));

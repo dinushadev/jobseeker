@@ -39,8 +39,7 @@ public class UserController {
 
       final String token = jwtTokenUtil.generateToken(userDetails);
       BaseResponse<JWTDto> res = new BaseResponse<>();
-      res.setData(new JWTDto(token, userDetails.getUsername(), userDetails.getId(), userDetails.getRole()));
-      res.setData(new JWTDto(token, userDetails.getUsername(), userDetails.getId(), userDetails.getRole()));
+      res.setData(new JWTDto(token, userDetails.getUsername(), userDetails.getId(), userDetails.getRole(), userDetails.getFirstName()));
       return ResponseEntity.ok(res);
    }
 

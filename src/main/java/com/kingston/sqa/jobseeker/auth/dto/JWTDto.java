@@ -13,5 +13,6 @@ public class JWTDto {
     private String userName;
     private Long userId;
     private UserType role;
+    private String firstName;
 
 }
