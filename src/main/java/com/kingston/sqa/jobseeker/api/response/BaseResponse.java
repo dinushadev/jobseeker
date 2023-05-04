@@ -1,11 +1,10 @@
 package com.kingston.sqa.jobseeker.api.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,6 +14,6 @@ public class BaseResponse<T> {
     private boolean success = true;
     private String errorCode;
     private T data;
-    private List<T> result;
+    private PageResponse<T> result;
 
 }

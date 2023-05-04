@@ -1,14 +1,17 @@
 package com.kingston.sqa.jobseeker.profile.services;
 
+import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import com.kingston.sqa.jobseeker.api.error.ProfileNotFoundException;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
 import com.kingston.sqa.jobseeker.profile.domain.QualificationType;
-import com.kingston.sqa.jobseeker.profile.dto.QualificationDto;
+import com.kingston.sqa.jobseeker.profile.dto.ProfileSearchDto;
+import com.kingston.sqa.jobseeker.profile.respositories.IProfileSearchRepository;
 import com.kingston.sqa.jobseeker.profile.respositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,6 +19,10 @@ public class ProfileService implements IProfileService{
 
     @Autowired
     private ProfileRepository profileRepository;
+
+    @Autowired
+    private IProfileSearchRepository profileSearchRepository;
+
 
     @Autowired
     private ISkillService skillService;
@@ -50,5 +57,12 @@ public class ProfileService implements IProfileService{
 
 
         return profileOptional.orElseThrow(ProfileNotFoundException::new);
+    }
+
+    @Override
+    public PageDto<Profile> searchProfiles(ProfileSearchDto profileSearch) {
+        return profileSearchRepository.filterProfile(profileSearch);
+
+
     }
 }
