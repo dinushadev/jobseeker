@@ -4,15 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
 import com.kingston.sqa.jobseeker.profile.domain.QualificationType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -22,7 +18,7 @@ public class QualificationDto {
 
     private Long id;
 
-    private  String institute;
+    private String institute;
 
     private String certificate;
 
@@ -46,18 +42,18 @@ public class QualificationDto {
         this.skills = q.getSkills();
     }
 
-    public Qualification toDomain(Long profileId, QualificationType type){
+    public Qualification toDomain(Long profileId, QualificationType type) {
         Profile profile = new Profile();
         profile.setId(profileId);
-        return  Qualification.builder()
+        return Qualification.builder()
                 .id(id)
                 .institute(this.institute)
                 .certificate(this.certificate)
-               .start(start)
+                .start(start)
                 .type(type)
                 .end(end)
                 .profile(profile)
-               .skills(skills)
+                .skills(skills)
                 .build();
     }
 

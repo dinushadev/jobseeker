@@ -1,7 +1,6 @@
 package com.kingston.sqa.jobseeker.api.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -8,10 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.Set;
 
 @Service
-public class SkillService implements ISkillService{
+public class SkillService implements ISkillService {
 
     @Autowired
     private SkillRepository skillRepository;
+
     @Override
     public void syncSkills(Set<Skill> skills) {
         skillRepository.saveAll(skills);

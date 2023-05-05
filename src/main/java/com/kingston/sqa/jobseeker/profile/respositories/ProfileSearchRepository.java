@@ -8,7 +8,6 @@ import com.kingston.sqa.jobseeker.profile.dto.ProfileSearchDto;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -22,6 +21,7 @@ public class ProfileSearchRepository implements IProfileSearchRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public PageDto<Profile> filterProfile(ProfileSearchDto profileSearch) {
 
@@ -40,39 +40,58 @@ public class ProfileSearchRepository implements IProfileSearchRepository {
                     cb.equal(cb.lower(profile.get("industry")), profileSearch.getIndustry().toLowerCase()));
         }
         //Education level. should have a list
-        if (StringUtils.hasText(profileSearch.getEducationQualification())){
+        if (StringUtils.hasText(profileSearch.getEducationQualification())) {
 
             Join<Profile, Qualification> eduQulificanSet = profile.join("academicQualifications");
             keyFieldPredicates.add(
-                    cb.like(cb.lower(eduQulificanSet.get("certificate")), profileSearch.getEducationQualification().toLowerCase()));
+                    cb.like(cb.lower(eduQulificanSet.get("certificate")), "%" + profileSearch.getEducationQualification().toLowerCase() + "%"));
 
         }
 
-   //Professional level. should have a list
-        if (StringUtils.hasText(profileSearch.getProfessionalQualification())){
+        //Professional level. should have a list
+        if (StringUtils.hasText(profileSearch.getProfessionalQualification())) {
 
             Join<Profile, Qualification> professionalQulificanSet = profile.join("professionalQualifications");
             keyFieldPredicates.add(
-                    cb.like(cb.lower(professionalQulificanSet.get("certificate")), profileSearch.getProfessionalQualification().toLowerCase()));
+                    cb.like(cb.lower(professionalQulificanSet.get("certificate")), "%" + profileSearch.getProfessionalQualification().toLowerCase() + "%"));
 
         }
 
         //Skill
-        if (profileSearch.getSkills() != null && profileSearch.getSkills().size()>0){
+        if (profileSearch.getSkills() != null && profileSearch.getSkills().size() > 0) {
 
             Join<Profile, Skill> skillSet = profile.join("skills");
-            Set<String> searchSkillList = profileSearch.getSkills().stream().map(s -> s.toUpperCase().replace(' ','_')).collect(Collectors.toSet());
-         keyFieldPredicates.add(skillSet.get("id").in(searchSkillList));
+            Set<String> searchSkillList = profileSearch.getSkills().stream().map(s -> s.toUpperCase().replace(' ', '_')).collect(Collectors.toSet());
+            keyFieldPredicates.add(skillSet.get("id").in(searchSkillList));
 
 
         }
 
+        //GCSE pass
+        if (profileSearch.getNoOfGcsePasses() > 0) {
+            keyFieldPredicates.add(
+                    cb.ge(profile.get("gcsePasses"), profileSearch.getNoOfGcsePasses()));
+        }
+
+        //education level
+        if (profileSearch.getEducationLevel() != null) {
+//            keyFieldPredicates.add(
+//                    cb.ge(profile.get("gcsePasses"), profileSearch.getEducationLevel()));
+        }
+
+        //experience
+        if (StringUtils.hasText(profileSearch.getExperience())) {
+
+            Join<Profile, Qualification> exprienceJoin = profile.join("experiences");
+            keyFieldPredicates.add(
+                    cb.like(cb.lower(exprienceJoin.get("position")), "%" + profileSearch.getExperience().toLowerCase() + "%"));
+        }
 
 
-       // query.orderBy(cb.desc(order.get("createdAt")));
+        // query.orderBy(cb.desc(order.get("createdAt")));
         query.select(profile).where(cb.and(keyFieldPredicates.toArray(new Predicate[0])));
 
-        List<Profile>  list = entityManager.createQuery(query).getResultList();
+        List<Profile> list = entityManager.createQuery(query).getResultList();
         page.setList(list);
         page.setTotal(list.size());
         return page;

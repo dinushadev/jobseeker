@@ -1,12 +1,12 @@
 package com.kingston.sqa.jobseeker.profile.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.util.StringUtils;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,7 +26,7 @@ public class Skill {
     @ToString.Exclude
     private Set<Profile> profiles;
 
-    public Skill( String skillLabel) {
+    public Skill(String skillLabel) {
         label = StringUtils.capitalize(skillLabel);
         id = skillLabel.toUpperCase().replace(' ', '_');
     }

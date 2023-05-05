@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,10 +30,10 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     @Column(unique = true)
-    private  String username;
+    private String username;
     @JsonIgnore
-    private  String password;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    private String password;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthDay;
     private String mobileNumber;
     private String gender;

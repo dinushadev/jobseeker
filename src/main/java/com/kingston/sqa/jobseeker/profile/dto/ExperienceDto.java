@@ -2,9 +2,6 @@ package com.kingston.sqa.jobseeker.profile.dto;
 
 import com.kingston.sqa.jobseeker.profile.domain.Experience;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,7 +27,7 @@ public class ExperienceDto {
 
     private List<String> skills;
 
-    public ExperienceDto(Experience e){
+    public ExperienceDto(Experience e) {
         this.id = e.getId();
         this.position = e.getPosition();
         this.organization = e.getOrganization();

@@ -2,6 +2,8 @@ package com.kingston.sqa.jobseeker.profile.services;
 
 import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import com.kingston.sqa.jobseeker.api.error.ProfileNotFoundException;
+import com.kingston.sqa.jobseeker.auth.domain.User;
+import com.kingston.sqa.jobseeker.auth.repositories.UserRepository;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
 import com.kingston.sqa.jobseeker.profile.domain.QualificationType;
@@ -11,11 +13,10 @@ import com.kingston.sqa.jobseeker.profile.respositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfileService implements IProfileService{
+public class ProfileService implements IProfileService {
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -26,18 +27,20 @@ public class ProfileService implements IProfileService{
 
     @Autowired
     private ISkillService skillService;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
     public Profile updateProfile(Profile profile) {
 
         //set  qualification type
-        if (profile.getAcademicQualifications()!= null && profile.getAcademicQualifications().size()>0 ){
+        if (profile.getAcademicQualifications() != null && profile.getAcademicQualifications().size() > 0) {
             for (Qualification qualification : profile.getAcademicQualifications()) {
-               qualification.setType(QualificationType.ACADEMIC);
+                qualification.setType(QualificationType.ACADEMIC);
             }
         }
-        if (profile.getProfessionalQualifications()!= null && profile.getProfessionalQualifications().size()>0 ){
+        if (profile.getProfessionalQualifications() != null && profile.getProfessionalQualifications().size() > 0) {
             for (Qualification qualification : profile.getProfessionalQualifications()) {
                 qualification.setType(QualificationType.PROFESSIONAL);
             }
@@ -54,9 +57,13 @@ public class ProfileService implements IProfileService{
 
         Optional<Profile> profileOptional = profileRepository.findById(userId);
 
-
-
-        return profileOptional.orElseThrow(ProfileNotFoundException::new);
+        if (profileOptional.isEmpty()){
+           User user =  userRepository.findById(userId).orElseThrow(ProfileNotFoundException::new);
+           Profile profile = new Profile();
+           profile.setUser(user);
+           return profile;
+        }
+        return  profileOptional.get();
     }
 
     @Override

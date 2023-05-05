@@ -16,33 +16,35 @@ import java.util.Optional;
 @Service
 public class UserService implements UserDetailsService {
 
-   @Autowired
-   private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-   @Autowired
-   private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-   @Override
-   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-      Optional<User> userOpt = userRepository.findByUsername(username);
-  //   return userOpt.orElseThrow(new UsernameNotFoundException("User not found"))
-      if (userOpt.isEmpty()) {
-         throw new UsernameNotFoundException("User not found");
-      }
-      return new org.springframework.security.core.userdetails.User(userOpt.get().getUsername(), userOpt.get().getPassword(), new ArrayList<>());
-   }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        //   return userOpt.orElseThrow(new UsernameNotFoundException("User not found"))
+        if (userOpt.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new org.springframework.security.core.userdetails.User(userOpt.get().getUsername(), userOpt.get().getPassword(), new ArrayList<>());
+    }
 
 
-   public User loadUserFromUsername(String username) {
-     Optional< User> userOpt = userRepository.findByUsername(username);
-      if (userOpt.isEmpty()) {
-         throw new UsernameNotFoundException("User not found");
-      }
-      return userOpt.get();
-   }
-   public User saveJobSeeker(User user) {
-      user.setPassword(passwordEncoder.encode(user.getPassword()));
-      user.setRole(UserType.JOB_SEEKER);
-      return userRepository.save(user);
-   }
+    public User loadUserFromUsername(String username) {
+        Optional<User> userOpt = userRepository.findByUsername(username);
+        if (userOpt.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return userOpt.get();
+    }
+
+    public User saveJobSeeker(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(UserType.JOB_SEEKER);
+        User saveUser= userRepository.save(user);
+        return  saveUser;
+    }
 }

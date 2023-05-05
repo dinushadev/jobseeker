@@ -6,11 +6,11 @@ import java.util.List;
 
 @Data
 public class ProfileSearchDto {
-    private  String industry;
+    private String industry;
     private String educationLevel;
-    private Integer noOfGcsePasses;
+    private int noOfGcsePasses;
     private List<String> skills;
-    private String skillExperience;
+    private String experience;
     private String educationQualification;
     private String professionalQualification;
 

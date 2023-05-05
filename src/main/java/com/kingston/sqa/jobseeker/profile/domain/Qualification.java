@@ -18,7 +18,7 @@ public class Qualification {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private  String institute;
+    private String institute;
 
     @Enumerated(EnumType.STRING)
     private QualificationType type; //Academic or Professional

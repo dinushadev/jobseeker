@@ -1,8 +1,8 @@
 package com.kingston.sqa.jobseeker.profile.controllers;
 
+import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import com.kingston.sqa.jobseeker.api.error.ProfileNotFoundException;
 import com.kingston.sqa.jobseeker.api.response.BaseResponse;
-import com.kingston.sqa.jobseeker.api.dto.PageDto;
 import com.kingston.sqa.jobseeker.api.response.PageResponse;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.dto.ProfileDto;
@@ -28,20 +28,21 @@ public class ProfileController {
         Profile profile = profileDto.toDomain();
         profile.setId(userId);
 
-       Profile updatedProfile =  this.profileService.updateProfile( profile);
+        Profile updatedProfile = this.profileService.updateProfile(profile);
 
         BaseResponse<ProfileDto> res = new BaseResponse<>();
         res.setData(new ProfileDto(updatedProfile));
 
         return ResponseEntity.ok(res);
     }
-  @GetMapping("/{userId}")
-    public ResponseEntity<BaseResponse<ProfileDto>> getProfile( @PathVariable Long userId) throws Exception {
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<BaseResponse<ProfileDto>> getProfile(@PathVariable Long userId) throws Exception {
 
 
-       Profile updatedProfile =  this.profileService.readProfile(userId);
+        Profile updatedProfile = this.profileService.readProfile(userId);
 
-       ProfileDto profileDto =new ProfileDto(updatedProfile);
+        ProfileDto profileDto = new ProfileDto(updatedProfile);
 
         BaseResponse<ProfileDto> res = new BaseResponse<>();
         res.setData(profileDto);
@@ -50,19 +51,19 @@ public class ProfileController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> findProfiles( @RequestBody ProfileSearchDto profileSearch) throws ProfileNotFoundException {
+    public ResponseEntity<?> findProfiles(@RequestBody ProfileSearchDto profileSearch) throws ProfileNotFoundException {
 
 
         PageDto<Profile> profilesPage = profileService.searchProfiles(profileSearch);
 
         BaseResponse<ProfileDto> res = new BaseResponse<>();
-        if (profilesPage.getList() != null){
+        if (profilesPage.getList() != null) {
             List<ProfileDto> profileDtoList = profilesPage.getList().stream().map(ProfileDto::new).toList();
             PageResponse<ProfileDto> pageResponse = new PageResponse<>(profileDtoList, profilesPage.getTotal());
 
             res.setResult(pageResponse);
-        }else  {
-            throw  new ProfileNotFoundException();
+        } else {
+            throw new ProfileNotFoundException();
         }
 
         return ResponseEntity.ok(res);

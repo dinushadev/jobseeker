@@ -1,13 +1,11 @@
 package com.kingston.sqa.jobseeker.profile.domain;
 
 import com.kingston.sqa.jobseeker.auth.domain.User;
-import com.kingston.sqa.jobseeker.profile.dto.QualificationDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Where;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
