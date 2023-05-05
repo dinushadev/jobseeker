@@ -23,7 +23,7 @@ public class MyCorsFilter implements Filter {
         httpResponse.addHeader("Access-Control-Allow-Methods",
                 "POST, PUT, GET, DELETE, PATCH, OPTIONS");
         httpResponse.addHeader("Access-Control-Max-Age", "3600");
-        httpResponse.addHeader("Access-Control-Allow-Credentials", "true");
+        httpResponse.addHeader("Access-Control-Allow-Credentials", "false");
         httpResponse.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
 
         chain.doFilter(request, httpResponse);

@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,6 +30,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
+
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+request.getMethod());
+        System.out.println(">>>>>>>>>>>>>>>>>>>>>>"+ request.getParameter("method"));
+//        if (request.getMethod().equals(HttpMethod.OPTIONS.name())){
+//            chain.doFilter(request, response);
+//            return;
+//        }
 
         final String requestTokenHeader = request.getHeader("Authorization");
 
