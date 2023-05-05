@@ -1,5 +1,6 @@
 package com.kingston.sqa.jobseeker.auth.controllers;
 
+import com.kingston.sqa.jobseeker.api.error.InvalidLoginException;
 import com.kingston.sqa.jobseeker.api.response.BaseResponse;
 import com.kingston.sqa.jobseeker.auth.domain.User;
 import com.kingston.sqa.jobseeker.auth.dto.JWTDto;
@@ -71,7 +72,8 @@ public class UserController {
         } catch (DisabledException e) {
             throw new Exception("USER_DISABLED", e);
         } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+            throw new InvalidLoginException();
+
         }
     }
 }
