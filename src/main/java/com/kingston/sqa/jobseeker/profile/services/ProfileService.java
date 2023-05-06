@@ -47,7 +47,7 @@ public class ProfileService implements IProfileService {
         }
     //update users
         if (profile.getUser() != null){
-            this.userRepository.save(profile.getUser());
+         //   this.userRepository.save(profile.getUser());
         }
 
         //update the still list in skill table
