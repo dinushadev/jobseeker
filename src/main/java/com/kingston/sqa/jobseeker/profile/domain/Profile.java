@@ -19,7 +19,7 @@ public class Profile {
     @Id
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private User user;
 

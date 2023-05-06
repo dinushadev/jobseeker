@@ -6,7 +6,7 @@ import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.dto.ProfileSearchDto;
 
 public interface IProfileService {
-    Profile updateProfile(Profile profile);
+    Profile updateProfile(Profile profile) throws ProfileNotFoundException;
 
     Profile readProfile(Long userId) throws ProfileNotFoundException;
 

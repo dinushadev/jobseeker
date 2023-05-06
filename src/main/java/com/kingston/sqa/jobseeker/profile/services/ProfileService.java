@@ -12,6 +12,7 @@ import com.kingston.sqa.jobseeker.profile.respositories.IProfileSearchRepository
 import com.kingston.sqa.jobseeker.profile.respositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class ProfileService implements IProfileService {
 
 
     @Override
-    public Profile updateProfile(Profile profile) {
+    public Profile updateProfile(Profile profile) throws ProfileNotFoundException {
 
         //set  qualification type
         if (profile.getAcademicQualifications() != null && profile.getAcademicQualifications().size() > 0) {
@@ -45,9 +46,36 @@ public class ProfileService implements IProfileService {
                 qualification.setType(QualificationType.PROFESSIONAL);
             }
         }
+        Optional<User> exsistngUserOpt = userRepository.findById(profile.getId());
+        User exsistingUser =  exsistngUserOpt.orElseThrow(ProfileNotFoundException::new);
     //update users
-        if (profile.getUser() != null){
-         //   this.userRepository.save(profile.getUser());
+        if (profile.getUser() != null && profile.getUser().getId()!= null){
+
+           if (StringUtils.hasText(profile.getUser().getEmail())){
+               exsistingUser.setEmail(profile.getUser().getEmail());
+           }
+            if (StringUtils.hasText(profile.getUser().getGender())){
+                exsistingUser.setGender(profile.getUser().getGender());
+            }
+            if (StringUtils.hasText(profile.getUser().getFirstName())){
+                exsistingUser.setFirstName(profile.getUser().getFirstName());
+            }
+            if (StringUtils.hasText(profile.getUser().getLastName())){
+                exsistingUser.setLastName(profile.getUser().getLastName());
+            }
+            if (profile.getUser().getBirthDay()!= null){
+                exsistingUser.setBirthDay(profile.getUser().getBirthDay());
+            }
+            if (StringUtils.hasText(profile.getUser().getAddress())){
+                exsistingUser.setAddress(profile.getUser().getAddress());
+            }
+            if (StringUtils.hasText(profile.getUser().getMobileNumber())){
+                exsistingUser.setMobileNumber(profile.getUser().getMobileNumber());
+            }
+            this.userRepository.save(profile.getUser());
+        } else {
+
+            profile.setUser(exsistingUser);
         }
 
         //update the still list in skill table
