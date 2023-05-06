@@ -21,6 +21,7 @@ public class QualificationDto {
     private String institute;
 
     private String certificate;
+    private String certificateType;
 
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -37,6 +38,7 @@ public class QualificationDto {
         this.id = q.getId();
         this.institute = q.getInstitute();
         this.certificate = q.getCertificate();
+        this.certificateType = q.getCertificateType();
         this.start = q.getStart();
         this.end = q.getEnd();
         this.skills = q.getSkills();
@@ -49,6 +51,7 @@ public class QualificationDto {
                 .id(id)
                 .institute(this.institute)
                 .certificate(this.certificate)
+                .certificateType(this.certificateType)
                 .start(start)
                 .type(type)
                 .end(end)

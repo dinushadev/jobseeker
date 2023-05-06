@@ -24,6 +24,7 @@ public class ProfileDto {
     private String industry;
     private Integer gcsePasses;
     private String eductionLevel;
+    private  int  yearsOfExperience;
 
     private Set<String> skills;
 
@@ -38,6 +39,7 @@ public class ProfileDto {
         this.user = profile.getUser();
         this.headline = profile.getHeadline();
         this.industry = profile.getIndustry();
+        this.yearsOfExperience = profile.getYearsOfExperience();
         this.about = profile.getAbout();
         this.gcsePasses = profile.getGcsePasses();
         this.eductionLevel = profile.getEductionLevel();
@@ -87,6 +89,7 @@ public class ProfileDto {
                 .user(user)
                 .headline(this.headline)
                 .about(this.about)
+                .yearsOfExperience(this.yearsOfExperience)
                 .gcsePasses(this.gcsePasses)
                 .industry(this.industry)
                 .skills(skillList)

@@ -31,6 +31,7 @@ public class Profile {
     private String eductionLevel;
 
     private Integer gcsePasses;
+    private  int yearsOfExperience;
 
     @ManyToMany
     @JoinTable(
