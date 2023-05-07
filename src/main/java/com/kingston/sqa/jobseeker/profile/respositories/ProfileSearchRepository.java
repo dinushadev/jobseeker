@@ -5,6 +5,7 @@ import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
 import com.kingston.sqa.jobseeker.profile.domain.Skill;
 import com.kingston.sqa.jobseeker.profile.dto.ProfileSearchDto;
+import com.kingston.sqa.jobseeker.profile.utill.EducationUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
@@ -74,9 +75,9 @@ public class ProfileSearchRepository implements IProfileSearchRepository {
         }
 
         //education level
-        if (profileSearch.getEducationLevel() != null) {
-//            keyFieldPredicates.add(
-//                    cb.ge(profile.get("gcsePasses"), profileSearch.getEducationLevel()));
+        if (StringUtils.hasText(profileSearch.getEducationLevel())) {
+            keyFieldPredicates.add(
+                    profile.get("educationLevel").in(EducationUtil.getListOfEligibleEducationLevel(profileSearch.getEducationLevel())));
         }
 
         //experience
