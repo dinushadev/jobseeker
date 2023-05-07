@@ -28,7 +28,7 @@ public class Profile {
 
     private String industry;
 
-    private String eductionLevel;
+    private String educationLevel;
 
     private Integer gcsePasses;
     private  int yearsOfExperience;
