@@ -3,6 +3,8 @@ package com.kingston.sqa.jobseeker.auth.services;
 import com.kingston.sqa.jobseeker.auth.domain.User;
 import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import com.kingston.sqa.jobseeker.auth.repositories.UserRepository;
+import com.kingston.sqa.jobseeker.profile.domain.Profile;
+import com.kingston.sqa.jobseeker.profile.respositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +23,8 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -45,6 +49,7 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(UserType.JOB_SEEKER);
         User saveUser= userRepository.save(user);
+        profileRepository.save(Profile.builder().id(saveUser.getId()).build());
         return  saveUser;
     }
 }

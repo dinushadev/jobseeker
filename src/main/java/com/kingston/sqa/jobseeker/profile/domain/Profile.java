@@ -49,14 +49,14 @@ public class Profile {
 //    @ToString.Exclude
 //    private List<ProfessionalQualification> professionalQualifications;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-    @Where(clause = "type = 'ACADEMIC'")
-    private Set<Qualification> academicQualifications;
+
 
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     @Where(clause = "type = 'PROFESSIONAL'")
     private Set<Qualification> professionalQualifications;
-
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
+    @Where(clause = "type = 'ACADEMIC'")
+    private Set<Qualification> academicQualifications;
     @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
     private Set<Experience> experiences;
 
