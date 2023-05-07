@@ -72,7 +72,7 @@ public class ProfileService implements IProfileService {
             if (StringUtils.hasText(profile.getUser().getMobileNumber())){
                 exsistingUser.setMobileNumber(profile.getUser().getMobileNumber());
             }
-            this.userRepository.save(profile.getUser());
+            this.userRepository.save(exsistingUser);
         } else {
 
             profile.setUser(exsistingUser);
