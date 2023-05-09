@@ -25,6 +25,7 @@ public class ProfileDto {
     private Integer gcsePasses;
     private String educationLevel;
     private  int  yearsOfExperience;
+    private String profileImageUrl;
 
     private Set<String> skills;
 
@@ -43,6 +44,7 @@ public class ProfileDto {
         this.about = profile.getAbout();
         this.gcsePasses = profile.getGcsePasses();
         this.educationLevel = profile.getEducationLevel();
+        this.profileImageUrl = profile.getProfileImageUrl();
 
 
         if (profile.getAcademicQualifications() != null) {
@@ -93,6 +95,7 @@ public class ProfileDto {
                 .gcsePasses(this.gcsePasses)
                 .educationLevel(this.educationLevel)
                 .industry(this.industry)
+                .profileImageUrl(this.profileImageUrl)
                 .skills(skillList)
                 .academicQualifications(academicList)
                 .professionalQualifications(profetionalList)

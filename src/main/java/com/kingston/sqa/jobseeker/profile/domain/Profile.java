@@ -33,6 +33,8 @@ public class Profile {
     private Integer gcsePasses;
     private  int yearsOfExperience;
 
+    private String profileImageUrl;
+
     @ManyToMany
     @JoinTable(
             name = "profile_skills",
