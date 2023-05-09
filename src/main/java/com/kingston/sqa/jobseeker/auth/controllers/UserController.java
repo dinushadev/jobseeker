@@ -33,7 +33,7 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginDto userLoginDto) throws Exception {
+    public ResponseEntity<BaseResponse<JWTDto>> login(@RequestBody UserLoginDto userLoginDto) throws Exception {
         authenticate(userLoginDto.getUsername(), userLoginDto.getPassword());
         final User userDetails = userService.loadUserFromUsername(userLoginDto.getUsername());
 
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<BaseResponse<Object>> register(@RequestBody UserDto userDto) {
         User user = new User();
         user.setUsername(userDto.getEmail());
         user.setPassword(userDto.getPassword());

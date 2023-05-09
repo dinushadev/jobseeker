@@ -59,7 +59,7 @@ public class ProfileController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> findProfiles(@RequestBody ProfileSearchDto profileSearch) throws ProfileNotFoundException {
+    public ResponseEntity<BaseResponse<ProfileDto>> findProfiles(@RequestBody ProfileSearchDto profileSearch) throws ProfileNotFoundException {
 
 
         PageDto<Profile> profilesPage = profileService.searchProfiles(profileSearch);

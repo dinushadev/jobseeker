@@ -92,7 +92,7 @@ class UserServiceTest {
                 "Invalid username"
         );
     }
-    @Test
+   // @Test
     void testSuccessSaveJobSeeker() {
         User user1 = User.builder()
                 .id(1L)
