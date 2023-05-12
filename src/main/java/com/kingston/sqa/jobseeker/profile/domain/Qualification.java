@@ -27,7 +27,9 @@ public class Qualification {
     private String certificateType;
 
 
+    @Column(name = "start_date")
     private LocalDate start;
+    @Column(name = "end_date")
     private LocalDate end;
 
     private List<String> skills;

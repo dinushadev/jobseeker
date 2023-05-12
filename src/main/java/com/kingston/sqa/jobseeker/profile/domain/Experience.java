@@ -27,7 +27,9 @@ public class Experience {
     private String organization;
     private String location;
 
+    @Column(name = "start_date")
     private LocalDate start;
+    @Column(name = "end_date")
     private LocalDate end;
 
     private String description;

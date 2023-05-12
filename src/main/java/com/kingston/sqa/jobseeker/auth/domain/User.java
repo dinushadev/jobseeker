@@ -20,6 +20,7 @@ import java.util.Objects;
 @Entity
 @Builder
 @AllArgsConstructor
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

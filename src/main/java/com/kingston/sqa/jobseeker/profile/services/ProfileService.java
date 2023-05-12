@@ -79,7 +79,9 @@ public class ProfileService implements IProfileService {
         }
 
         //update the still list in skill table
-        this.skillService.syncSkills(profile.getSkills());
+        if (profile.getSkills() != null && !profile.getSkills().isEmpty()){
+            this.skillService.syncSkills(profile.getSkills());
+        }
 
         return profileRepository.save(profile);
     }
