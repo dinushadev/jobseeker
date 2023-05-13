@@ -1,6 +1,7 @@
 package com.kingston.sqa.jobseeker.profile.respositories;
 
 import com.kingston.sqa.jobseeker.api.dto.PageDto;
+import com.kingston.sqa.jobseeker.auth.dto.UserType;
 import com.kingston.sqa.jobseeker.profile.domain.Profile;
 import com.kingston.sqa.jobseeker.profile.domain.Qualification;
 import com.kingston.sqa.jobseeker.profile.domain.Skill;
@@ -11,6 +12,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.*;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import com.kingston.sqa.jobseeker.auth.domain.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,10 @@ public class ProfileSearchRepository implements IProfileSearchRepository {
 
         List<Predicate> keyFieldPredicates = new ArrayList<>();
         List<Predicate> namePredicates = new ArrayList<>();
+
+        Join<Profile, User> userJoin = profile.join("user");
+        keyFieldPredicates.add(
+               cb.equal(userJoin.get("role"), UserType.JOB_SEEKER));
 
         //Job Sector/Industry
         if (StringUtils.hasText(profileSearch.getIndustry())) {
