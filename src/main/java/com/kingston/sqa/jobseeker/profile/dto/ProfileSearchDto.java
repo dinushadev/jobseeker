@@ -10,7 +10,7 @@ public class ProfileSearchDto {
     private String educationLevel;
     private int noOfGcsePasses;
     private List<String> skills;
-    private String experience;
+    private Integer experience;
     private String educationQualification;
     private String professionalQualification;
 

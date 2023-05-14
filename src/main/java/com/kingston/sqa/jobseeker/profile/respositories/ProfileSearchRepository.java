@@ -87,11 +87,16 @@ public class ProfileSearchRepository implements IProfileSearchRepository {
         }
 
         //experience
-        if (StringUtils.hasText(profileSearch.getExperience())) {
-
-            Join<Profile, Qualification> exprienceJoin = profile.join("experiences");
+//        if (StringUtils.hasText(profileSearch.getExperience())) {
+//
+//            Join<Profile, Qualification> exprienceJoin = profile.join("experiences");
+//            keyFieldPredicates.add(
+//                    cb.like(cb.lower(exprienceJoin.get("position")), "%" + profileSearch.getExperience().toLowerCase() + "%"));
+//        }
+        if (profileSearch.getExperience() >0){
+            //yearsOfExperience
             keyFieldPredicates.add(
-                    cb.like(cb.lower(exprienceJoin.get("position")), "%" + profileSearch.getExperience().toLowerCase() + "%"));
+                    cb.ge(profile.get("yearsOfExperience"), profileSearch.getExperience()));
         }
 
 
